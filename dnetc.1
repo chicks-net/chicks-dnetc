@@ -1,0 +1,281 @@
+.\"
+.\" dnetc v2.9110-519-CFR-11041616 for Linux
+.\" Copyright (c) 1996-2011
+.\"         distributed.net. All rights reserved.
+.\"
+.Id $Id: dnetc.1,v 1.82 2011/03/31 05:07:28 jlawson Exp $
+.Dd Sat Apr 16 18:50:40 2011
+.Dt DNETC 1
+.Sh NAME
+.Nm dnetc
+.Nd distributed.net distributed computing client for Linux
+.Sh SYNOPSIS
+.Nm dnetc
+.Op "\-config"
+.Op "\-flush"
+.Op "\-fetch"
+.Op "\-update"
+.Op "\-benchmark [prj]"
+.Op "\-benchmark2 [prj]"
+.Op "\-bench [prj [cn]]"
+.Op "\-test [prj [cn]]"
+.Op "\-stress [prj [cn]]"
+.Op "\-cpuinfo"
+.Op "\-restart"
+.Op "\-shutdown"
+.Op "\-pause"
+.Op "\-unpause"
+.Op "\-install [...]"
+.Op "\-uninstall"
+.Op "\-import <filename>"
+.Op "\-forceunlock <fn>"
+.Op "\-help"
+.Op "\-version"
+.Op "\-ini <filename>"
+.Op "\-e <address>"
+.Op "\-nodisk"
+.Op "\-n <count>"
+.Op "\-runbuffers"
+.Op "\-frequent"
+.Op "\-inbase <fname>"
+.Op "\-outbase <fname>"
+.Op "\-ckpoint <fname>"
+.Op "\-bin <prj> <n>"
+.Op "\-btime [prj] <n>"
+.Op "\-runoffline"
+.Op "\-runonline"
+.Op "\-nettimeout <secs>"
+.Op "\-a <address>"
+.Op "\-p <port>"
+.Op "\-nofallback"
+.Op "\-u <method>"
+.Op "\-ha <address>"
+.Op "\-hp <port>"
+.Op "\-lurk"
+.Op "\-lurkonly"
+.Op "\-interfaces <list>"
+.Op "\-c [prj] <n>"
+.Op "\-numcpu <n>"
+.Op "\-priority <0\-9>"
+.Op "\-l <filename>"
+.Op "\-smtplen <len>"
+.Op "\-smtpsrvr <host>"
+.Op "\-smtpport <port>"
+.Op "\-smtpfrom <id>"
+.Op "\-smtpdest <id>"
+.Op "\-h <hours[:min]>"
+.Op "\-until <HH:MM>"
+.Op "\-noexitfilecheck"
+.Op "\-pausefile <fn>"
+.Op "\-exitfile <fn>"
+.Op "\-multiok[=|:][0|1]"
+.Op "\-percentoff"
+.Op "\-quiet/\-hide"
+.Op "\-noquiet"
+.Sh DESCRIPTION
+.Ar dnetc
+is a distributed computing client that coordinates with servers operated by
+.Ar distributed.net
+to cooperate with other network-connected computers to work on a common task.  It communicates over public networks and processes work assigned by the
+.Ar distributed.net
+keyservers. It is designed to run in idle time so as to not impact the normal operation of the computer.
+.Sh INSTALLATION
+Since you are already reading this, I assume you know how to unpack an archive into a directory of your choice. :)
+.sp 1
+Now, simply fire up the client...
+.sp 1
+If you have never run the client before, it will initiate the menu-driven configuration. Save and quit when done, the configuration file will be saved \fBin the same directory as the client\fP. Now, simply restart the client. From that point on it will use the saved configuration.
+.sp 1
+The configuration options are fairly self-explanatory and can be run at any time by starting the client with the '-config' option. A list of command line options is listed below.
+.Sh OPTIONS
+In addition to the conventional command line passed to the client from a shell, options may also be passed to the client using either or both of the following methods:
+.sp 0
+\-	using the \fBdnetc_opt\fP= environment variable.
+.sp 0
+	If set, this is parsed before the normal command line.
+.sp 0
+\-	using the \fB/usr/local/etc/dnetc.opt\fP and/or \fB/etc/dnetc.opt\fP
+.sp 0
+	command files. If found, these are parsed after the normal
+.sp 0
+	command line.
+.sp 0
+"Mode commands" (see below) cannot be executed using these methods, and there is no run-time display of modified settings (unless the settings are also modified using the conventional command line, in which case the last effective change is displayed).
+.Ss "Mode commands: (the client will execute the option and then exit)"
+.Bl -tag -width Fl
+.It Fl config
+start the configuration menu
+.It Fl flush
+flush all output buffers
+.It Fl fetch
+fill all input buffers
+.It Fl update
+fetch + flush
+.It Fl benchmark Op prj
+16\-20 sec speed check [optional: only project prj]
+.It Fl benchmark2 Op prj
+half (8\-10 sec) and slightly inaccurate \-benchmark
+.It Fl bench Op prj [cn
+\-benchmark all cores [optional: only project prj]
+.sp 0
+[optional: only core cn, must be used with prj]
+.It Fl test Op prj [cn
+tests for core errors [optional: only project prj]
+.sp 0
+[optional: only core cn, must be used with prj]
+.It Fl stress Op prj [cn
+more thorough and longer running variant of \-test
+.It Fl cpuinfo
+print information about the detected cpu(s)
+.It Fl restart
+restart all active clients
+.It Fl shutdown
+gracefully shut down all active clients
+.It Fl pause
+pause all active clients
+.It Fl unpause
+unpause all active clients
+.It Fl install Op ...
+install the client in /etc[/rc.d]/init.d/
+.sp 0
+all [...options...] that follow '\-install' serve
+.sp 0
+as parameters for the installed client.
+.It Fl uninstall
+remove the client from /etc[/rc.d]/init.d/
+.It Fl import Ar <filename>
+import packets from file <filename> into client buffers
+.It Fl forceunlock Ar <fn>
+unlock buffer file <fn>
+.It Fl help
+display this text
+.It Fl version
+print version information
+.El
+.Ss "Project and buffer related options:"
+.Bl -tag -width Fl
+.It Fl ini Ar <filename>
+override default name of INI file
+.It Fl e Ar <address>
+the email id by which you are known to distributed.net
+.It Fl nodisk
+don't use disk buffer files
+.It Fl n Ar <count>
+packets to complete. \-1 forces exit when buffer is empty.
+.It Fl runbuffers
+set \-n == \-1 (exit when buffers are empty)
+.It Fl frequent
+frequently check if buffers need topping\-up
+.It Fl inbase Ar <fname>
+input buffer basename (ie without 'extension'/suffix)
+.It Fl outbase Ar <fname>
+output buffer basename (ie without 'extension'/suffix)
+.It Fl ckpoint Ar <fname>
+set the name of the checkpoint file
+.It Fl bin Ar <prj> Ar <n>
+set fetch buffer threshold to <n> work units
+.It Fl btime Op prj Ar <n>
+set fetch time threshold to <n> hours
+.sp 0
+If not specified, project name <prj> defaults to RC5
+.El
+.Ss "Network update related options:"
+.Bl -tag -width Fl
+.It Fl runoffline
+disable network access
+.It Fl runonline
+enable network access
+.It Fl nettimeout Ar <secs>
+set the network timeout. Use \-1 to force blocking mode
+.It Fl a Ar <address>
+keyserver name or IP address
+.It Fl p Ar <port>
+keyserver port number
+.It Fl nofallback
+don't fallback to a distributed.net keyserver
+.It Fl u Ar <method>
+use this UUE/HTTP encoding method (see \-config)
+.It Fl ha Ar <address>
+http/socks proxy name or IP address
+.It Fl hp Ar <port>
+http/socks proxy port
+.It Fl lurk
+automatically detect modem connections
+.It Fl lurkonly
+perform buffer updates only when a connection is detected
+.It Fl interfaces Ar <list>
+limit the interfaces to monitor for online/offline status
+.El
+.Ss "Performance related options:"
+.Bl -tag -width Fl
+.It Fl c Op prj Ar <n>
+core number (run \-config for a list of valid core numbers)
+.sp 0
+project name 'prj' defaults to RC5
+.It Fl numcpu Ar <n>
+run <n> threads/run on <n> cpus. 0 forces single\-threading.
+.It Fl priority Ar <0-9>
+scheduling priority from 0 (lowest/idle) to 9 (normal/user)
+.El
+.Ss "Logging options:"
+.Bl -tag -width Fl
+.It Fl l Ar <filename>
+name of the log file
+.It Fl smtplen Ar <len>
+max size (in bytes) of a mail message (0 means no mail)
+.It Fl smtpsrvr Ar <host>
+name or IP address of mail (SMTP) server
+.It Fl smtpport Ar <port>
+mail (SMTP) server port number
+.It Fl smtpfrom Ar <id>
+who the client should say is sending the message
+.It Fl smtpdest Ar <id>
+who the client should send mail to
+.El
+.Ss "Miscellaneous runtime options:"
+.Bl -tag -width Fl
+.It Fl h Ar <hours[:min]>
+time limit in hours
+.It Fl until Ar <HH:MM>
+quit at HH:MM (eg 07:30)
+.It Fl noexitfilecheck
+override .ini exit flagfile setting
+.It Fl pausefile Ar <fn>
+name of file that causes the client to pause
+.It Fl exitfile Ar <fn>
+name of file that causes the client to exit
+.It Fl multiok[=|:][0|1]
+allow/disallow multiple instances of the client to run
+.sp 0
+The default is 'allow' for all platforms but Windows.
+.It Fl percentoff
+don't display work completion as a running percentage
+.It Fl quiet/\-hide
+suppress screen output (== detach for some clients)
+.It Fl noquiet
+don't suppress screen output (override ini quiet setting)
+.El
+.Sh BUGS
+distributed.net maintains a database to assist with the tracking and resolution of bugs in dnetc and related software.
+.Sp
+If you believe you have found a bug, please submit it to the distributed.net bug tracking database at http://bugs.distributed.net/
+.sp 1
+Please provide the entire version descriptor as displayed on client start when doing so. For example, the client version this manpage was generated for was "dnetc v2.9110-519-CFR-11041616 for Linux".
+.Sh ENVIRONMENT
+.Pp
+\fBdnetc_opt\fP (or the upper\-case version thereof)
+.sp 0
+Additional source of command line options (parsed first)
+.Sh FILES
+.Pp
+\fB/usr/local/etc/dnetc.opt\fP
+.sp 0
+\fB/etc/dnetc.opt\fP
+.sp 0
+Additional sources of command line options (parsed last)
+.Sh "SEE ALSO"
+.Pp
+Client documentation: dnetc.txt and http://faq.distributed.net/
+.Sh AUTHOR
+distributed.net
+http://www.distributed.net/
