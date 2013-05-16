@@ -14,3 +14,7 @@ META.yml
 MYMETA.yml
 nytprof.out
 pm_to_blib
+buff-in.*
+buff-out.r72
+buff-out.og2
+mint-*
