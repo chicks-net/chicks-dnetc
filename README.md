@@ -8,7 +8,6 @@ NOTE: the credits will go to me and this config leans to RC5 over OGR.
 TODO
 ----
 
-* pick log file name intelligently
 * add log file name pattern to .gitignore
 
 LINKS
