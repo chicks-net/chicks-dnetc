@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# TODO: check size of buff-out.r72
+./dnetc -update
+echo ""
+
+# the next line is not an assignment :)
+TZ=UTC date
+S=$(($RANDOM/2))
+M=$(($S/60))
+echo sleeping $S seconds or ~$M minutes
+echo -n "waking up at "
+EPOCH_SECS=`date "+%s"`
+whenis -u $(($EPOCH_SECS+$S))
+sleep $S
+./dnetc -update
