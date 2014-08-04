@@ -8,7 +8,7 @@ NOTE: the credits will go to me and this config leans to RC5 over OGR.
 TODO
 ----
 
-* add log file name pattern to .gitignore
+* configure central proxy
 
 LINKS
 -----
